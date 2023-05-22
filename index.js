@@ -8,6 +8,7 @@ require("dotenv").config();
 
 const userRoutes = require("./routes/user");
 const courseRoutes = require("./routes/courses");
+const attendanceRoutes = require("./routes/attendance");
 
 mongoose
   .connect(process.env.DB_URL)
@@ -16,12 +17,13 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-app.use(express.json());
+app.use(express.json({ limit: "20mb" }));
 app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/api/users", userRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 app.listen(port, () => {
   console.log(`Started Listening on ${port}`);
